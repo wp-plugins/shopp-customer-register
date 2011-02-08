@@ -3,7 +3,7 @@ Contributors: maca134
 Tags: Shopp, Customer Registration
 Requires at least: 3.0.0
 Tested up to: 3.1
-Stable tag: trunk
+Stable tag: 0.3
 
 Allows users to register as a customer on Shopp without having to place an order.
 
