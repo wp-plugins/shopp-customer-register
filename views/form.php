@@ -8,41 +8,79 @@
     <?php } ?>
     <?php if ($show_form) { ?>
         <form method="post" action="<?php the_permalink(); ?>" id="sreg-form" class="sreg-form">
-            <?php if ($shopp_account_type == 'wordpress') : ?>
-            <p>
-                <label for="sreg-username">Username</label>
-                <input type="text" name="customer[loginname]" id="sreg-username" value="<?php echo (isset($_POST['customer']['loginname'])) ? $_POST['customer']['loginname'] : ''; ?>" />
-            </p>            
+            <fieldset>
+                <legend>Contact Information</legend>
+                <?php if ($shopp_account_type == 'wordpress') : ?>
+                <p>
+                    <label for="sreg-username">Username</label>
+                    <input type="text" name="customer[loginname]" id="sreg-username" value="<?php echo (isset($_POST['customer']['loginname'])) ? $_POST['customer']['loginname'] : ''; ?>" />
+                </p>            
+                <?php endif; ?>
+                <p>
+                    <label for="sreg-email">Email</label>
+                    <input type="text" name="customer[email]" id="sreg-email" value="<?php echo (isset($_POST['customer']['email'])) ? $_POST['customer']['email'] : ''; ?>" />
+                </p>
+                <p>
+                    <label for="sreg-password">Password</label>
+                    <input type="password" name="customer[password]" id="sreg-password" value="" />
+                </p>
+                <p>
+                    <label for="sreg-confirm-password">Confirm Password</label>
+                    <input type="password" name="customer[confirm-password]" id="sreg-confirm-password" value="" />
+                </p>            
+                <p>
+                    <label for="sreg-firstname">Firstname</label>
+                    <input type="text" name="customer[firstname]" id="sreg-firstname" value="<?php echo (isset($_POST['customer']['firstname'])) ? $_POST['customer']['firstname'] : ''; ?>" />
+                </p>
+                <p>
+                    <label for="sreg-lastname">Lastname</label>
+                    <input type="text" name="customer[lastname]" id="sreg-lastname" value="<?php echo (isset($_POST['customer']['lastname'])) ? $_POST['customer']['lastname'] : ''; ?>" />
+                </p>
+                <p>
+                    <label for="sreg-phone">Phone</label>
+                    <input type="text" name="customer[phone]" id="sreg-phone" value="<?php echo (isset($_POST['customer']['phone'])) ? $_POST['customer']['phone'] : ''; ?>" />
+                </p> 
+                <p>
+                    <label for="sreg-company">Company</label>
+                    <input type="text" name="customer[company]" id="sreg-company" value="<?php echo (isset($_POST['customer']['company'])) ? $_POST['customer']['company'] : ''; ?>" />
+                </p> 
+                <p>
+                    <label for="sreg-marketing">Yes, I would like to receive e-mail updates and special offers!</label>
+                    <input type="checkbox" name="customer[marketing]" id="sreg-marketing" value="yes" <?php echo (isset($_POST['customer']['marketing']) && $_POST['customer']['marketing'] == 'yes') ? 'checked="checked"' : ''; ?> />
+                </p> 
+                
+            </fieldset>
+            <?php if ($show_billing) : ?>
+            <fieldset>
+                <legend>Billing Address</legend>
+                <p>
+                    <label for="sreg-billing-address">Street Address</label>
+                    <input type="text" name="billing[address]" id="sreg-billing-address" value="<?php echo (isset($_POST['billing']['address'])) ? $_POST['billing']['address'] : ''; ?>" />
+                </p>
+                <p>
+                    <label for="sreg-billing-xaddress">Address Line 2</label>
+                    <input type="text" name="billing[xaddress]" id="sreg-billing-xaddress" value="<?php echo (isset($_POST['billing']['xaddress'])) ? $_POST['billing']['xaddress'] : ''; ?>" />
+                </p>
+                <p>
+                    <label for="sreg-billing-city">City</label>
+                    <input type="text" name="billing[city]" id="sreg-billing-city" value="<?php echo (isset($_POST['billing']['city'])) ? $_POST['billing']['city'] : ''; ?>" />
+                </p>
+                <p>
+                    <label for="sreg-billing-state">State / Province</label>
+                    <input type="text" name="billing[state]" id="sreg-billing-state" value="<?php echo (isset($_POST['billing']['state'])) ? $_POST['billing']['state'] : ''; ?>" />
+                </p>
+                <p>
+                    <label for="sreg-billing-postcode">Postal / Zip Code</label>
+                    <input type="text" name="billing[postcode]" id="sreg-billing-postcode" value="<?php echo (isset($_POST['billing']['postcode'])) ? $_POST['billing']['postcode'] : ''; ?>" />
+                </p>                
+                <p>
+                    <label for="sreg-billing-country">Country</label>
+                    <select name="billing[country]" id="sreg-billing-country">
+                    <?php echo $countries_select_html; ?>
+                    </select>
+                </p>
+            </fieldset>
             <?php endif; ?>
-            <p>
-                <label for="sreg-email">Email</label>
-                <input type="text" name="customer[email]" id="sreg-email" value="<?php echo (isset($_POST['customer']['email'])) ? $_POST['customer']['email'] : ''; ?>" />
-            </p>
-            <p>
-                <label for="sreg-password">Password</label>
-                <input type="password" name="customer[password]" id="sreg-password" value="" />
-            </p>
-            <p>
-                <label for="sreg-confirm-password">Confirm Password</label>
-                <input type="password" name="customer[confirm-password]" id="sreg-confirm-password" value="" />
-            </p>            
-            <p>
-                <label for="sreg-firstname">Firstname</label>
-                <input type="text" name="customer[firstname]" id="sreg-firstname" value="<?php echo (isset($_POST['customer']['firstname'])) ? $_POST['customer']['firstname'] : ''; ?>" />
-            </p>
-            <p>
-                <label for="sreg-lastname">Lastname</label>
-                <input type="text" name="customer[lastname]" id="sreg-lastname" value="<?php echo (isset($_POST['customer']['lastname'])) ? $_POST['customer']['lastname'] : ''; ?>" />
-            </p>
-            <p>
-                <label for="sreg-phone">Phone</label>
-                <input type="text" name="customer[phone]" id="sreg-phone" value="<?php echo (isset($_POST['customer']['phone'])) ? $_POST['customer']['phone'] : ''; ?>" />
-            </p> 
-            <p>
-                <label for="sreg-company">Company</label>
-                <input type="text" name="customer[company]" id="sreg-company" value="<?php echo (isset($_POST['customer']['company'])) ? $_POST['customer']['company'] : ''; ?>" />
-            </p> 
-
             <p>
                 <input type="submit" value="Send" />
                 <input type="hidden" name="customer[type]" value="Retail" />

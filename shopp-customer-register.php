@@ -1,12 +1,13 @@
 <?php
 /*
 Plugin Name: Shopp Customer Register
-Version: 0.3
+Version: 0.4
 Description: Register customer accounts for Shopp without having to order
 Plugin URI: https://bitbucket.org/maca134/shopp-customer-register/wiki/Home
 Author: Matthew McConnell
 Author URI: http://www.maca134.co.uk/
 */
+if (!class_exists('pluginAdminMenu')) include_once "pluginadminmenu/pluginadminmenu.php";
 
 $plugin_dir = plugin_basename(__FILE__); $plugin_dir = str_replace( basename($plugin_dir), '', $plugin_dir );
 define('SHOPPREGCUST_DIR', WP_PLUGIN_DIR . '/' . $plugin_dir);
@@ -27,7 +28,10 @@ class shoppregcust {
     private $shopp_version = array('1.1.5', '1.1.6');
     private $error_message = '';
     private $shopp_account_type = '';
-
+    private $plugin_name = 'Shopp Reg';
+    private $plugin_tag = 'shoppreg';
+    private $options = array();
+    private $pluginAdminMenu;
     /**
      * shoppregcust::__construct()
      * 
@@ -58,6 +62,7 @@ class shoppregcust {
         }
         if ($no_errors)
         {
+            $this->setup_options();
             add_shortcode('shopp_regform', array(&$this, 'shortcode'));
             global $table_prefix;
             $this->shopp_account_type = $Shopp->Settings->registry['account_system'];
@@ -68,6 +73,29 @@ class shoppregcust {
             add_action('admin_notices', array(&$this, 'admin_notices'));
         }
     }
+    /**
+     * shoppregcust::setup_options()
+     * 
+     * @return void
+     */
+    function setup_options()
+    {
+        $plugin_icon = SHOPPREGCUST_URL . 'plugin_icon.png';
+        
+        $this->pluginAdminMenu = new pluginAdminMenu($this->plugin_tag, $this->plugin_name, $plugin_icon);
+        
+        $this->options = $this->pluginAdminMenu->set_options($html_options = array (
+            
+            array( "name" => "General Settings",
+            	   "type" => "section"),
+                   
+            array( "name" => "Show Billing",
+            	   "desc" => "Check this to show billing form.",
+            	   "id" => $this->plugin_tag."_show_billing",
+            	   "type" => "checkbox"),                                          
+            array('type' => 'close'),
+        ));
+    } 
     /**
      * shoppregcust::admin_notices()
      * 
@@ -87,11 +115,19 @@ class shoppregcust {
         $data = array();
         $data['show_form'] = true;
         $data['shopp_account_type'] = $this->shopp_account_type;
-        
+        $this->show_billing = (isset($this->options['shoppreg_show_billing']) && $this->options['shoppreg_show_billing'] == 1) ? true : false;
+        if ($this->show_billing)
+        {
+            global $Shopp;
+            $base = $Shopp->Settings->get('base_operations');
+            $countries = $Shopp->Settings->get('target_markets');
+            $selected_country = (isset($_POST['billing']['country'])) ? $_POST['billing']['country'] : $base['country'];
+            $data['countries_select_html'] = menuoptions($countries,$selected_country,true);
+            $data['show_billing'] = $this->show_billing;
+        }
         if (isset($_POST['customer']))
         {
-            
-            $user = $this->add_user($_POST['customer']);
+            $user = $this->add_user();
                 
             if (!$user)
             {
@@ -114,53 +150,78 @@ class shoppregcust {
      * @param mixed $data
      * @return
      */
-    private function add_user($data)
+    private function add_user()
     {
         require_once(ABSPATH."/wp-includes/registration.php");
         
         $Errors =& ShoppErrors();
         $Errors->reset();
-        if (empty($data['email'])) 
+        if (empty($_POST['customer']['email'])) 
         {
             $this->form_error = 'Email address is required.';
             return false;
         }
-        if ($this->email_exists($data['email'])) 
+        if ($this->email_exists($_POST['customer']['email'])) 
         {
             $this->form_error = 'Email address is already registered with another Shopp customer.';
             return false;
         }
-        if (empty($data['password'])) 
+        if (empty($_POST['customer']['password'])) 
         {
             $this->form_error = 'Password is required.';
             return false;
         }
-        if ($data['password'] !== $data['confirm-password']) 
+        if ($_POST['customer']['password'] !== $_POST['customer']['confirm-password']) 
         {
             $this->form_error = 'Passwords do not match.';
             return false;
         } 
         if ($this->shopp_account_type == 'wordpress')
         {
-            if (empty($data['loginname'])) 
+            if (empty($_POST['customer']['loginname'])) 
             {
                 $this->form_error = 'Username is already registered.';
                 return false;                
             }
-            if (email_exists($data['email']))
+            if (email_exists($_POST['customer']['email']))
             {
                 $this->form_error = 'Email address is already registered with another Wordpress user.';
                 return false;                 
             }
         }
+        if ($this->show_billing)
+        {
+            if (empty($_POST['billing']['address']))
+            {
+                $this->form_error = 'Street address is required.';
+                return false;                
+            }
+            if (empty($_POST['billing']['city']))
+            {
+                $this->form_error = 'City is required.';
+                return false;                
+            }
+            if (empty($_POST['billing']['state']))
+            {
+                $this->form_error = 'State is required.';
+                return false;                
+            }
+            if (empty($_POST['billing']['postcode']))
+            {
+                $this->form_error = 'Postcode is required.';
+                return false;                
+            }
+        }
+        
+        $customer_data = $_POST['customer'];
         
         $shopp_customer = new Customer();
-        $shopp_customer->updates($data);
+        $shopp_customer->updates($customer_data);
         
         if ($this->shopp_account_type == 'wordpress') 
         {
             $shopp_customer->create_wpuser(); // not logged in, create new account
-            $data['wpuser'] = $shopp_customer->wpuser;
+            $customer_data['wpuser'] = $shopp_customer->wpuser;
             unset($shopp_customer->password);
             if ($Errors->exist(SHOPP_ERR)) 
             {
@@ -174,14 +235,23 @@ class shoppregcust {
             $shopp_customer->password = wp_hash_password($data['password']);
         }        
         $shopp_customer->save();
-                
+        
         if ($Errors->exist(SHOPP_ERR)) 
         {
             $shopp_error = $Errors->get(SHOPP_ERR);
             $this->form_error = implode(', ', $shopp_error[0]->messages);
             return false;
         }                
-        return $data;
+        if ($this->show_billing)
+        {
+            $billing_data = $_POST['billing'];
+            $shopp_billing = new Billing();  
+            $shopp_billing->updates($billing_data);
+            $shopp_billing->customer = $shopp_customer->id;
+            $shopp_billing->save();
+        }        
+        
+        return $customer_data;
     }
     /**
      * shoppregcust::email_exists()

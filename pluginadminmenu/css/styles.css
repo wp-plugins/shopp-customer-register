@@ -1,0 +1,157 @@
+#pluginadminmenu-options {
+clear:both;
+width:740px;
+}
+
+.clearfix {
+clear:both;
+}
+
+.ok_message {
+-moz-border-radius:6px;
+-webkit-border-radius:6px;
+background:0 color-stop(50%,#dbdbdb), color-stop(51%,#d1d1d1), color-stop(100%,#fefefe));
+border:1px solid #e2e2e2;
+font-weight:700;
+margin:10px 0;
+padding:6px 16px;
+}
+
+.pam_options {
+border-bottom:1px solid #ddd;
+}
+
+.pam_section {
+background:#f9f9f9;
+border:1px solid #ddd;
+border-bottom:0;
+}
+
+.pam_title {
+background:#eee;
+border-bottom:1px solid #ddd;
+cursor:pointer;
+padding:0;
+}
+
+.pam_title h3 {
+color:#232323;
+cursor:pointer;
+float:left;
+font-size:1em;
+font-weight:700;
+margin:0;
+padding:14px 4px;
+text-transform:uppercase;
+width:80%;
+}
+
+.pam_title h3 img.active {
+-moz-border-radius:6px;
+-webkit-border-radius:6px;
+background:url('../images/pointer.png') no-repeat 0 -32px;
+border:1px solid #ccc;
+float:left;
+height:32px;
+margin:-8px 10px 0 2px;
+width:32px;
+}
+
+.pam_title h3 img.inactive {
+-moz-border-radius:6px;
+background:url('../images/pointer.png') no-repeat 0 0;
+border:1px solid #ccc;
+float:left;
+height:32px;
+margin:-8px 10px 0 2px;
+width:32px;
+}
+
+.pam_title h3:hover img {
+border:1px solid #999;
+}
+
+.pam_title span.submit {
+display:block;
+float:right;
+margin:0;
+padding:14px 0;
+width:15%;
+}
+.pam_table th, .pam_table td{
+	border:1px solid #bbb;
+	padding:10px;
+	text-align:center;
+}
+.pam_table th, .pam_table td.feature{
+	border-color:#888;
+	}
+
+
+
+.pam_options label{
+	font-size:12px;
+	font-weight:700;
+	width:200px;
+	display:block;
+	float:left;
+}
+.pam_radio {
+    padding:30px 10px;
+}
+.input_radio {
+    margin: 5px 0;
+}
+.pam_radio label{
+	font-size:12px;
+	font-weight:700;
+	width:auto;
+	display:inline;
+	float:none;
+    margin-bottom: 20px;
+}
+
+.pam_radio input[type=radio] {
+    margin-left: 200px;
+}
+.pam_input {
+	padding:30px 10px;
+	border-bottom:1px solid #ddd;
+	border-top:1px solid #fff;
+}
+.pam_options small{
+	display:block;
+	float:right;
+	width:200px;
+	color:#999;
+}
+.pam_radio small{
+	display:inline;
+	float:none;
+	width:auto;
+	color:#999;
+}
+.pam_radio {
+    border-bottom:1px solid #ddd;
+	border-top:1px solid #fff;
+}
+.pam_options input[type="text"], .pam_options select{
+	width:280px;
+	font-size:12px;
+	padding:4px;
+	color:#333;
+	line-height:1em;
+	background:#f3f3f3;
+}
+.pam_input input:focus, .pam_input textarea:focus{
+		background:#fff;
+}
+.pam_input textarea{
+	width:280px;
+	height:175px;
+	font-size:12px;
+	padding:4px;
+	color:#333;
+	line-height:1.5em;
+	background:#f3f3f3;
+}

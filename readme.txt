@@ -3,7 +3,7 @@ Contributors: maca134
 Tags: Shopp, Customer Registration
 Requires at least: 3.0.0
 Tested up to: 3.1
-Stable tag: 0.3
+Stable tag: 0.4
 
 Allows users to register as a customer on Shopp without having to place an order.
 
@@ -19,6 +19,10 @@ Shopp Customer Register allows users to register as a customer on Shopp without 
 4. Click activate.
 
 == ChangeLog ==
+
+= Version 0.4 =
+
+* Added option to take billing information as part of the registration process
 
 = Version 0.3 =
 
