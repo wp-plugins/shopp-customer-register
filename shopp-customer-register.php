@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Shopp Customer Register
-Version: 0.4.1
+Version: 0.4.2
 Description: Register customer accounts for Shopp without having to order
 Plugin URI: https://bitbucket.org/maca134/shopp-customer-register/wiki/Home
 Author: Matthew McConnell
@@ -25,7 +25,7 @@ class shoppregcust {
     
     private $views_path     = 'views/';
     private $table_prefix = '';
-    private $shopp_version = array('1.1.5', '1.1.6', '1.1.7');
+    private $shopp_version = array('1.1.5', '1.1.6', '1.1.7', '1.1.8');
     private $error_message = '';
     private $shopp_account_type = '';
     private $plugin_name = 'Shopp Reg';
@@ -88,7 +88,7 @@ class shoppregcust {
             
             array( "name" => "General Settings",
             	   "type" => "section"),
-                   
+            array( "name" => "To use this plugin just place [shopp_regform] to add a customer registration form.", "type" => "p"),
             array( "name" => "Show Billing",
             	   "desc" => "Check this to show billing form.",
             	   "id" => $this->plugin_tag."_show_billing",

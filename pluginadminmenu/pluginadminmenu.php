@@ -110,7 +110,9 @@ class pluginAdminMenu {
                         <p>To easily use the <?php echo $this->plugin_name;?> plugin, you can use the menu below.</p>
                     <?php 
                 break;
-                
+                case 'p':
+					?><p><?php echo $value['name']; ?></p><?php
+				break;
                 case 'text':
                     ?>
                         <div class="pam_input pam_text">
