@@ -188,7 +188,7 @@ class shoppregcust {
 				return false;
 			}
 		} else {
-			$shopp_customer->password = wp_hash_password ( $data ['password'] );
+			$shopp_customer->password = wp_hash_password ( $customer_data ['password'] );
 		}
 		$shopp_customer->save ();
 		
