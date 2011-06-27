@@ -1,4 +1,14 @@
+<?php
+/*
+$form_error
+If there has been a form error, this field will contain the details
 
+$form_success
+If the user was registered successfully, there will contain the 'Thankyou' message
+
+
+*/
+?>
 <div class="sreg-format_text-container">
     <?php if (isset($form_error)) { ?>
         <p class="sreg-form-error"><?php echo $form_error; ?></p>
@@ -6,6 +16,7 @@
     <?php if (isset($form_success)) { ?>
         <p class="sreg-form-success"><?php echo $form_success; ?></p>
     <?php } ?>
+    
     <?php if ($show_form) { ?>
         <form method="post" action="<?php the_permalink(); ?>" id="sreg-form" class="sreg-form">
             <fieldset>
