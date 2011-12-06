@@ -1,11 +1,11 @@
 <?php
 /*
   Plugin Name: Shopp Customer Register
-  Version: 0.4.8
+  Version: 0.5
   Description: Register customer accounts for Shopp without having to order
-  Plugin URI: https://bitbucket.org/maca134/shopp-customer-register/wiki/Home
+  Plugin URI: http://maca134.co.uk/blog/shopp-customer-register/
   Author: Matthew McConnell
-  Author URI: http://www.maca134.co.uk/
+  Author URI: http://maca134.co.uk/
  */
 if (!class_exists('pluginAdminMenu'))
     include_once 'pluginadminmenu/pluginadminmenu.php';
@@ -48,10 +48,10 @@ class shoppregcust {
 
         if (!isset($Shopp)) {
             $no_errors = false;
-            $this->error_message = 'The Shopp plugin needs to be activated for Shopp Customer Register to work.';
+            $this->error_message = __('The Shopp plugin needs to be activated for Shopp Customer Register to work.');
         } elseif ($Shopp->Settings->registry ['account_system'] == 'none') {
             $no_errors = false;
-            $this->error_message = 'Shopp \'Customer Accounts\' is set to \'No Accounts\', so user registrations is disabled.';
+            $this->error_message = __('Shopp "Customer Accounts" is set to "No Accounts", so user registrations is disabled.');
         } else {
             $this->setup_options();
             add_shortcode('shopp_regform', array(&$this, 'shortcode'));
@@ -75,33 +75,34 @@ class shoppregcust {
         $this->options = $this->pluginAdminMenu->set_options(
                         array(
                             array(
-                                'name' => 'General Settings',
+                                'name' => __('General Settings'),
                                 'type' => 'section'
                             ),
                             array(
-                                'name' => 'To use this plugin just place [shopp_regform] to add a customer registration form.',
+                                'name' => __('To use this plugin just place [shopp_regform] to add a customer registration form.'),
                                 'type' => 'p'
                             ),
                             array(
-                                'name' => 'Show Billing',
+                                'name' => __('Show billing'),
                                 'std' => '0',
-                                'desc' => 'Check this to show billing form.',
+                                'desc' => __('Check this to show billing form.'),
                                 'id' => $this->plugin_tag . '_show_billing',
                                 'type' => 'checkbox'
                             ),
                             array(
-                                'name' => 'Send Email Notification',
+                                'name' => __('Send email notification'),
                                 'std' => '0',
-                                'desc' => 'Send email when a user registers.',
+                                'desc' => __('Send email when a user registers.'),
                                 'id' => $this->plugin_tag . '_send_notification',
                                 'type' => 'checkbox'
                             ),
                             array(
-                                'name' => 'Thankyou Message',
+                                'name' => __('Thankyou message'),
                                 'std' => '',
                                 'type' => 'textarea',
                                 'id' => $this->plugin_tag . '_thankyou_message',
-                                'desc' => 'Please enter a thankyou message to be displayed when the registration is complete.'),
+                                'desc' => __('Please enter a thankyou message to be displayed when the registration is complete.')
+                               ),
                             array(
                                 'type' => 'close'
                             )
@@ -174,46 +175,46 @@ class shoppregcust {
         $Errors = & ShoppErrors();
         $Errors->reset();
         if (empty($_POST ['customer'] ['email'])) {
-            $this->form_error = 'Email address is required.';
+            $this->form_error = __('Email address is required.');
             return false;
         }
         if ($this->email_exists($_POST ['customer'] ['email'])) {
-            $this->form_error = 'Email address is already registered with another Shopp customer.';
+            $this->form_error = __('Email address is already registered with another Shopp customer.');
             return false;
         }
         if (empty($_POST ['customer'] ['password'])) {
-            $this->form_error = 'Password is required.';
+            $this->form_error = __('Password is required.');
             return false;
         }
         if ($_POST ['customer'] ['password'] !== $_POST ['customer'] ['confirm-password']) {
-            $this->form_error = 'Passwords do not match.';
+            $this->form_error = __('Passwords do not match.');
             return false;
         }
         if ($this->shopp_account_type == 'wordpress') {
             if (empty($_POST ['customer'] ['loginname'])) {
-                $this->form_error = 'Username is already registered.';
+                $this->form_error = __('Username is already registered.');
                 return false;
             }
             if (email_exists($_POST ['customer'] ['email'])) {
-                $this->form_error = 'Email address is already registered with another Wordpress user.';
+                $this->form_error = __('Email address is already registered with another Wordpress user.');
                 return false;
             }
         }
         if ($this->show_billing) {
             if (empty($_POST ['billing'] ['address'])) {
-                $this->form_error = 'Street address is required.';
+                $this->form_error = __('Street address is required.');
                 return false;
             }
             if (empty($_POST ['billing'] ['city'])) {
-                $this->form_error = 'City is required.';
+                $this->form_error = __('City is required.');
                 return false;
             }
             if (empty($_POST ['billing'] ['state'])) {
-                $this->form_error = 'State is required.';
+                $this->form_error = __('State is required.');
                 return false;
             }
             if (empty($_POST ['billing'] ['postcode'])) {
-                $this->form_error = 'Postcode is required.';
+                $this->form_error = __('Postcode is required.');
                 return false;
             }
         }
