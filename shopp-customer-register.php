@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: Shopp Customer Register
-  Version: 0.5
+  Version: 0.5.1
   Description: Register customer accounts for Shopp without having to order
   Plugin URI: http://maca134.co.uk/blog/shopp-customer-register/
   Author: Matthew McConnell
