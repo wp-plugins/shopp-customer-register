@@ -215,6 +215,7 @@ class pluginAdminMenu {
                 case 'radio':
                    $attr[$value['id']] = $value['std']; 
                    $this->options[$value['id']] = get_option($value['id'], $value['std']);
+                default:
                 break;
             }
         }
